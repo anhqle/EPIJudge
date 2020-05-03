@@ -9,7 +9,22 @@ RED, WHITE, BLUE = range(3)
 
 
 def dutch_flag_partition(pivot_index: int, A: List[int]) -> None:
-    # TODO - you fill in here.
+    s = 0
+    e = 0
+    pivot = A[pivot_index]
+    # Put the pivot number last so we know where it is
+    A[pivot_index], A[-1] = A[-1], A[pivot_index]
+
+    for i in range(len(A) - 1):
+        if A[i] < pivot:
+            A[i], A[s] = A[s], A[i]
+            s += 1
+            e = max(s, e)
+        if A[i] == pivot:
+            A[i], A[e] = A[e], A[i]
+            e += 1
+    # swap pivot number to e location
+    A[-1], A[e] = A[e], A[-1]
     return
 
 
