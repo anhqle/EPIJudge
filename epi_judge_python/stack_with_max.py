@@ -1,23 +1,48 @@
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
+import collections
 
 
 class Stack:
+    class MaxWithCount:
+        def __init__(self, value, count):
+            self.value, self.count = value, count
+
+    def __init__(self):
+        self.data = []
+        self.max_stack = []
+
     def empty(self) -> bool:
-        # TODO - you fill in here.
-        return True
+        return len(self.data) == 0
 
     def max(self) -> int:
-        # TODO - you fill in here.
-        return 0
+        if self.max_stack:
+            return self.max_stack[-1].value
+        raise Exception
 
     def pop(self) -> int:
-        # TODO - you fill in here.
-        return 0
+        if not self.empty():
+            item = self.data.pop()
+            if item == self.max():
+                if self.max_stack[-1].count > 1:
+                    self.max_stack[-1].count -= 1
+                else:
+                    self.max_stack.pop()
+            return item
+        raise Exception
 
     def push(self, x: int) -> None:
-        # TODO - you fill in here.
-        return
+        # Push
+        self.data.append(x)
+
+        # Update max
+        if self.max_stack:
+            if x > self.max():
+                self.max_stack.append(self.MaxWithCount(x, 1))
+            elif x == self.max():
+                self.max_stack[-1].count += 1
+        else:
+            self.max_stack.append(self.MaxWithCount(x, 1))
 
 
 def stack_tester(ops):
