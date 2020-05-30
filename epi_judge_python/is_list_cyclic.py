@@ -8,7 +8,19 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def has_cycle(head: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
+
+    pslow = pfast = head
+
+    while pfast and pfast.next and pfast.next.next:
+        pslow = pslow.next
+        pfast = pfast.next.next
+        if pslow is pfast:
+            cur = head
+            while cur is not pslow:
+                cur = cur.next
+                pslow = pslow.next
+            return cur
+
     return None
 
 
