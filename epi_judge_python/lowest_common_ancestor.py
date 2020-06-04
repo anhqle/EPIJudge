@@ -7,11 +7,28 @@ from test_framework.binary_tree_utils import must_find_node, strip_parent_link
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
+from collections import namedtuple
 
 def lca(tree: BinaryTreeNode, node0: BinaryTreeNode,
         node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
-    # TODO - you fill in here.
-    return None
+
+    Result = namedtuple("Result", ['ancestor', 'n'])
+    def lca_helper(tree, node0, node1):
+        if not tree: # base case
+            return Result(None, 0)
+
+        # return tree if one node is in left and the other in right
+        l = lca_helper(tree.left, node0, node1)
+        r = lca_helper(tree.right, node0, node1) 
+
+        if l.ancestor or r.ancestor:
+            return Result(l.ancestor or r.ancestor, l.n + r.n)
+        
+        total = l.n + r.n + (1 if tree == node0 else 0) + (1 if tree == node1 else 0) 
+
+        return Result(tree if total == 2 else None, total)
+
+    return lca_helper(tree, node0, node1).ancestor
 
 
 @enable_executor_hook
