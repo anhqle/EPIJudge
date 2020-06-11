@@ -4,19 +4,14 @@ import math
 
 def is_binary_tree_bst(tree: BinaryTreeNode) -> bool:
 
-    def is_bst(tree: BinaryTreeNode) -> (bool, int, int):
-        # return BST status, min, max
-        if tree is None:
-            return True, math.inf, -math.inf
+    def is_bst(tree, lo, hi) -> bool:
+        if not tree:
+            return True
+        return (lo <= tree.data <= hi
+            and is_bst(tree.left, lo, tree.data)
+            and is_bst(tree.right, tree.data, hi))
 
-        left_bst, left_min, left_max = is_bst(tree.left)
-        right_bst, right_min, right_max = is_bst(tree.right)
-        
-        return (left_bst and right_bst and left_max <= tree.data and right_min >= tree.data,
-            min(left_min, tree.data), max(right_max, tree.data)
-        )
-
-    return is_bst(tree)[0]
+    return is_bst(tree, float('-inf'), float('inf'))
 
 
 if __name__ == '__main__':
