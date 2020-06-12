@@ -4,8 +4,16 @@ from test_framework import generic_test
 
 
 def has_two_sum(A: List[int], t: int) -> bool:
-    # TODO - you fill in here.
-    return True
+    l, r = 0, len(A) - 1
+    while l <= r:
+        tmp = A[l] + A[r]
+        if tmp == t:
+            return True
+        elif tmp > t:
+            r -= 1
+        elif tmp < t:
+            l += 1
+    return False
 
 
 if __name__ == '__main__':
