@@ -2,28 +2,22 @@ from test_framework import generic_test
 
 
 def levenshtein_distance(A: str, B: str) -> int:
-    cache = [[-1] * len(B) for _ in range(len(A))]
-    cache[0][0] = 0 if A[0] == B[0] else 1
+    cache = {}
+    def util(A, B):
+        if len(A) == 0 or len(B) == 0:
+            cache[(A, B)] = len(A) or len(B)
+            return cache[(A, B)]
 
-    def util(a, b, cache = cache):
-        if a < 0:
-            return 1 + b
-        if b < 0:
-            return 1 + a
-
-        # Return if result is already cached
-        if cache[a][b] != -1:
-            return cache[a][b]
-
-        if A[a] == B[b]:
-            cache[a][b] = util(a - 1, b - 1)
+        if A[-1] == B[-1]:
+            cache[(A, B)] = cache.get((A[:-1], B[:-1]), None) or util(A[:-1], B[:-1])
         else:
-            cache[a][b] = 1 + min(util(a - 1, b - 1), util(a, b - 1), util(a - 1, b))
+            sub = cache.get((A[:-1], B[:-1]), None) or util(A[:-1], B[:-1])
+            delete = cache.get((A[:-1], B), None) or util(A[:-1], B)
+            add = cache.get((A, B[:-1]), None) or util(A, B[:-1])
+            cache[(A, B)] = 1 + min(sub, delete, add)
+        return cache[(A, B)]
 
-        return cache[a][b]
-
-    return util(len(A) - 1, len(B) - 1)
-
+    return util(A, B)
 
 if __name__ == '__main__':
     exit(
