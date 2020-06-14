@@ -11,12 +11,33 @@ WHITE, BLACK = range(2)
 
 Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
 
-
 def search_maze(maze: List[List[int]], s: Coordinate,
                 e: Coordinate) -> List[Coordinate]:
-    # TODO - you fill in here.
-    return []
+    
+    
+    def search_maze_helper(cur):
+        if not (0 <= cur.x < len(maze) and 0 <= cur.y < len(maze[0]) and maze[cur.x][cur.y] == WHITE):
+            return False
+        path.append(cur)
+        maze[cur.x][cur.y] = BLACK  # a way to mark that this square is "visited"
 
+        if cur == e:
+            return True
+
+        res = map(search_maze_helper, 
+            [Coordinate(cur.x - 1, cur.y),
+             Coordinate(cur.x + 1, cur.y),
+             Coordinate(cur.x, cur.y - 1),
+             Coordinate(cur.x, cur.y + 1)])
+        if any(res):
+            return True
+        del path[-1]
+        return False
+
+    path = []
+    if search_maze_helper(s):
+        return path
+    return []
 
 def path_element_is_feasible(maze, prev, cur):
     if not ((0 <= cur.x < len(maze)) and
