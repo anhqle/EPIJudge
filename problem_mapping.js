@@ -334,7 +334,7 @@ problem_mapping = {
                 "total": 2001
             },
             "Python: next_permutation.py": {
-                "passed": 0,
+                "passed": 2001,
                 "total": 2001
             }
         },
@@ -546,7 +546,7 @@ problem_mapping = {
                 "total": 305
             },
             "Python: is_string_palindromic_punctuation.py": {
-                "passed": 0,
+                "passed": 305,
                 "total": 305
             }
         },
@@ -2016,7 +2016,7 @@ problem_mapping = {
                 "total": 8
             },
             "Python: permutations.py": {
-                "passed": 0,
+                "passed": 8,
                 "total": 8
             }
         },
