@@ -4,8 +4,22 @@ from test_framework import generic_test, test_utils
 
 
 def phone_mnemonic(phone_number: str) -> List[str]:
-    # TODO - you fill in here.
-    return []
+
+    mapping = {'1': ['1'], '2': ['A', 'B', 'C'], '3': ['D', 'E', 'F'], '4': ['G', 'H', 'I'],
+             '5': ['J', 'K', 'L'], '6': ['M', 'N', 'O'], '7': ['P', 'Q', 'R', 'S'], 
+             '8': ['T', 'U', 'V'], '9': ['W', 'X', 'Y', 'Z'], '0': ['0']}
+    res = []
+    A = [c for c in phone_number]
+    def util(i):
+        if i == len(A):
+            res.append(''.join(A))
+            return
+        for char in mapping[phone_number[i]]:
+            A[i] = char
+            util(i + 1)
+            
+    util(0)
+    return res
 
 
 if __name__ == '__main__':
