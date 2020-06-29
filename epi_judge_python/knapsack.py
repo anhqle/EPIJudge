@@ -1,7 +1,7 @@
 import collections
 import functools
 from typing import List
-
+from collections import deque
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
@@ -9,8 +9,28 @@ Item = collections.namedtuple('Item', ('weight', 'value'))
 
 
 def optimum_subject_to_capacity(items: List[Item], capacity: int) -> int:
-    # TODO - you fill in here.
-    return 0
+
+    mat = []
+    for row in range(len(items)):
+        mat.append([None] * (capacity + 1))
+    
+    # first row
+    for w in range(capacity + 1):
+        mat[0][w] = items[0].value if items[0].weight <= w else 0
+        
+    for row in range(1, len(items)):
+        candidate = items[row]
+        c_w = candidate.weight
+        c_v = candidate.value
+        for w in range(capacity + 1):
+            if candidate.weight > w:
+                mat[row][w] = mat[row - 1][w]
+            else:
+                v = max(mat[row - 1][w - c_w] + c_v, mat[row - 1][w])
+                mat[row][w] = v
+    
+    return mat[-1][-1]
+
 
 
 @enable_executor_hook

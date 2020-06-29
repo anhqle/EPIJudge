@@ -1,11 +1,17 @@
 from typing import Iterator
-
+from collections import Counter
 from test_framework import generic_test
 
 
 def majority_search(stream: Iterator[str]) -> str:
-    # TODO - you fill in here.
-    return ''
+    c = Counter(stream)
+    max_k = ''
+    max_v = 0
+    for k, v in c.items():
+        if v > max_v:
+            max_k = k
+            max_v = v
+    return max_k
 
 
 def majority_search_wrapper(stream):

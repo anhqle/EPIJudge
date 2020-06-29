@@ -9,15 +9,20 @@ from test_framework.test_utils import enable_executor_hook
 def delete_duplicates(A: List[int]) -> int:
     if len(A) <= 1:
         return len(A)
-    w, r = 0, 0
-    while r < len(A):
-        while r < len(A) and A[r] == A[w]:
-            r += 1
-        if r < len(A):
-            A[w + 1] = A[r]
+
+    r, w = 0, 0
+    while r < len(A) - 1:
+        if A[r] != A[r + 1]:
+            A[w] = A[r]
             w += 1
+        r += 1
+    A[w] = A[r]
     return w + 1
 
+        
+
+
+    
 
 @enable_executor_hook
 def delete_duplicates_wrapper(executor, A):
