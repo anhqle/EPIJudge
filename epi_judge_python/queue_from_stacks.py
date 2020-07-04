@@ -3,14 +3,18 @@ from test_framework.test_failure import TestFailure
 
 
 class Queue:
+    def __init__(self):
+        self.en = []
+        self.de = []
+
     def enqueue(self, x: int) -> None:
-        # TODO - you fill in here.
-        return
+        self.en.append(x)
 
     def dequeue(self) -> int:
-        # TODO - you fill in here.
-        return 0
-
+        if not self.de:
+            while self.en:
+                self.de.append(self.en.pop())
+        return self.de.pop()
 
 def queue_tester(ops):
     try:
